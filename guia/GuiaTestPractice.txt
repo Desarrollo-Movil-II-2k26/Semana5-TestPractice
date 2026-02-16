@@ -9,7 +9,7 @@ Goals......: - Create application using React-Native libraries.
 			 - Config Android environment.
 			 - Using the Shared Preferences.			 
 Professor..: Jorge Ruiz (york)
-Student....: Esteban Amores
+Students....: Esteban Amores
 			 Jorjan Alvarez
 			 Marco Campos
 			 Laura Montero
@@ -19,6 +19,8 @@ Step 01 - Open the Android Emulator
 
 	Only the AVD is required
 	or physical cellphone in developer options activated
+
+---------------------------
 		
 Step 02 - Close the Antivirus (real time scanning) (only if is required).
 
@@ -30,8 +32,9 @@ Step 03 - Update global environment
 		
 	- Close the current PowerShell instance	
 
+---------------------------
 	
-Setp 04 - Creates the new application:
+Step 04 - Creates the new application:
 
 	- Open the PowerShell (administrator is not required)
 	- Changes location to work directory and executes the next instruction:
@@ -60,6 +63,8 @@ Setp 04 - Creates the new application:
 		npx react-native run-android (Comando para ejecutar el aplicativo)
 		
 	- YUPI time (01)
+
+---------------------------
 	
 Step 05 - Create the source structure:
 
@@ -70,221 +75,53 @@ Step 05 - Create the source structure:
 		<root_project>
 			- localStorage
 			- src
-				- components				
+				- components
+					- config				
 				- styles
 				- views
+				
+---------------------------
 	
+Step 06 - Install required libraries:
 
-Step 06 - Create the StyleSheet:
+	- npm install @react-navigation/native
+	- npm install @react-navigation/native-stack
+	- npm install react-native-screens react-native-safe-area-context
+	- npm install @reduxjs/toolkit react-redux
+	- npm install @react-native-async-storage/async-storage
+	- npm install axios
+	- npm install react-native-vector-icons (ESTE NO)
+	- npm install --save-dev @types/react-native-vector-icons 
+
+---------------------------
+
+Step 07 - Create the StyleSheet:
 
 	- Right click on <root_project>/src/styles
 	
-		- Add new typescript file style_01.tsx and writes:
-		
-			import { StyleSheet } from 'react-native';
+		- Add new typescript file style_01.tsx and write the code you need
+		- Add new typescript file welcomeStyles.tsx and write the code you need	
 
-			const style_01 = StyleSheet.create({
-				container: {
-					justifyContent: 'center',
-					alignItems: 'center',
-					padding: 20,
-					backgroundColor: '#f7f7f7',
-				},
-				title: {
-					fontSize: 24,
-					fontWeight: 'bold',
-					marginBottom: 10,
-				},
-				inputContainer: {
-					marginBottom: 20,
-				},
-				inputLabel: {
-					fontSize: 18,
-					color: '#666',
-					marginBottom: 5,
-				},
-				inputFiled: {
-					padding: 10,
-					border: '1px solid #ccc',
-					borderRadius: 4,
-					width: '100%',
-				},
-				buttonContainer: {
-					marginTop: 20,
-				},
-				button: {
-					backgroundColor: '#4CAF50',
-					color: '#fff',
-					padding: 10,
-					borderWidth: 0,
-					borderRadius: 4,
-					borderColor: '#4CAF50',
-					justifyContent: 'center',
-				},
-				buttonHover: {
-					backgroundColor: '#3e8e41',
-				},
-			});
-
-			export default style_01;		
-		
 		- Save changes
 
 
-Step 07 - Create the components of the views:
+Step 08 - Create the components of the views:
 
 	- Right click on <root_project>/src/views
 	
-		- Add new typescript file Login.tsx and writes:
-			
-			import React, { useState } from 'react';
-			import { View, Text, TextInput, Button } from 'react-native';
-			import style_01 from '../styles/style_01';
-
-			interface LoginProps {
-				onLogin: (username: string, password: string) => void;
-			}
-
-			const Login = ({ onLogin }: LoginProps) => {
-				const [username, setUsername] = useState('');
-				const [password, setPassword] = useState('');
-
-				const handleLogin = () => {
-					if (username === 'admin' && password === 'parda99*') {
-						onLogin(username, password);
-					} else {
-						console.log('Invalid username or password');
-					}
-				};
-
-				return (
-					<View style={style_01.container}>
-						<Text style={style_01.title}>Login Screen</Text>
-						<View style={style_01.inputContainer}>
-							<TextInput
-								style={style_01.inputFiled}
-								placeholder="Username"
-								value={username}
-								onChangeText={(text) => setUsername(text)}
-							/>
-						</View>
-						<View style={style_01.inputContainer}>
-							<TextInput
-								style={style_01.inputFiled}
-								placeholder="Password"
-								secureTextEntry={true}
-								value={password}
-								onChangeText={(text) => setPassword(text)}
-							/>
-						</View>
-						<View style={style_01.buttonContainer}>
-							<Button title="Login" onPress={handleLogin} />
-						</View>
-					</View>
-				);
-			};
-
-			export default Login;
-
-		- Save changes
+		- Add new typescript file Welcome.tsx write the code you need:
+		- Add new typescript file PlayList.tsx write the code you need:
+		- Add new typescript file Details.tsx write the code you need:
 		
-		
-		- Add new typescript file Welcome.tsx and writes:
-		
-			import React from 'react';
-			import { View, Text } from 'react-native';
-			import style_01 from '../styles/style_01';
-
-			const Welcome = () => {
-				return (
-					<View style={style_01.container}>
-						<Text style={style_01.title}>Welcome Screen</Text>
-						<Text>{`Hello, ${'admin'}!`}</Text>
-					</View>
-				);
-			};
-
-			export default Welcome;		
-		
-		- Save changes
-		
-
 	- Open the <root_project>/App.tsx and:
-	
-		- Delete all code and writes the next instructions:
 
-			// Call react libraries
-			import React, { useState } from 'react';
-			import { View } from 'react-native';
+		- Write the code that you need:
 
-			// Call the Login and Welcome components (custom components)
-			import Login from './src/views/Login';
-			import Welcome from './src/views/Welcome';
-
-			const App = () => {
-			  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-			  if(isLoggedIn) {
-				return <Welcome />;
-			  }else {
-				return (
-				  <View>
-					<Login onLogin={(username, password) => {
-					  if(username === 'admin' && password === 'parda99*'){
-						setIsLoggedIn(true);
-					  }}} />
-				  </View>
-				);
-			  }
-			};
-
-			export default App;
-		
-		- Save changes
-
-
-	- Testing application (in terminal):		
-	
-		npx react-native run-android
-		
-		
-	- YUPI time again (02)
-
+Step 08 - Create the components of the components:
 		
 Setp 08 - Add localStorage module (header):	
 	
 	- Create typeScrip file called NativeLocalStorage.tsx into the <root_project>/localStorage/
-	
-	- Writes the next code:
-	
-		import type { TurboModule } from 'react-native';
-		import { TurboModuleRegistry } from 'react-native';
-
-		export interface Spec extends TurboModule {
-		  getItem(key: string): string | null;
-		  setItem(key: string, value: string): void;
-		  removeItem(key: string): void;
-		  clear(): void;
-		}
-
-		export default TurboModuleRegistry.getEnforcing<Spec>(
-		  'NativeLocalStorage'
-		);
-		
-	- Save changes	
-		
-	- Open <root_project>/package.json, and add the next code before dependencies segment:
-
-		  "codegenConfig": {
-			"name": "NativeLocalStorageSpec",
-			"type": "modules",
-			"jsSrcsDir": "localStorage",
-			"android": {
-			  "javaPackageName": "com.class_06"
-			}
-		  },
-		  
-		- Save changes	
 	
 	
 	- Go back to the terminal and execute again:

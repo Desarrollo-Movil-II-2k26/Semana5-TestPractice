@@ -1,0 +1,77 @@
+GUIA COMPLETA - CREACION REPOSITORIO Y PROYECTO REACT NATIVE
+
+1) CREAR REPOSITORIO PRINCIPAL
+
+-   Crear repositorio en GitHub llamado: Semana5-TestPractice
+-   Clonar el repositorio: git clone
+-   Entrar a la carpeta: cd Semana5-TestPractice
+
+------------------------------------------------------------------------
+
+2) ACTUALIZAR ENTORNO GLOBAL (UNA SOLA VEZ)
+
+-   Abrir PowerShell como Administrador
+-   Ejecutar: npm install -g typescript
+-   Cerrar PowerShell
+
+------------------------------------------------------------------------
+
+3) CREAR PROYECTO REACT NATIVE DENTRO DEL REPOSITORIO
+
+-   Abrir PowerShell (normal)
+
+-   Estar dentro de: C:\2026-TestPractice
+
+-   Ejecutar: npx @react-native-community/cli@latest init
+    testPractice_01 –version 0.83.0
+
+Esto crea la carpeta: testPractice_01
+
+------------------------------------------------------------------------
+
+4) VERIFICAR QUE NO EXISTA REPOSITORIO INTERNO
+
+-   Entrar a la carpeta: cd testPractice_01
+
+-   Verificar que NO exista carpeta .git
+
+-   Si existe, eliminarla: rmdir /s /q .git
+
+-   Regresar a la raíz: cd ..
+
+------------------------------------------------------------------------
+
+5) AGREGAR PROYECTO AL REPOSITORIO PRINCIPAL
+
+-   Agregar archivos: git add .
+
+-   Hacer commit: git commit -m “Agrega proyecto testPractice_01 React
+    Native 0.83.0”
+
+-   Subir a GitHub: git push -u origin main
+
+------------------------------------------------------------------------
+
+6) CONFIRMAR EN GITHUB
+
+El repositorio debe verse así:
+
+Semana5-TestPractice ├── examen/ ├── guia/ └── testPractice_01/ ├──
+android/ ├── ios/ ├── App.tsx ├── package.json └── …
+
+No debe aparecer submódulo (create mode 160000).
+
+------------------------------------------------------------------------
+
+7) PARA FUTUROS CAMBIOS
+
+Cada vez que hagas cambios:
+
+    git add .
+    git commit -m "Descripción del cambio"
+    git push
+
+------------------------------------------------------------------------
+
+PROYECTO CONFIGURADO CORRECTAMENTE. ESTRUCTURA PROFESIONAL Y SIN
+ERRORES.
