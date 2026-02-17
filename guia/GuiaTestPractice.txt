@@ -278,62 +278,7 @@ Step 09 - Add localStorage module (body - Kotlin code):
 	
 Step 10 - Update the graphic interface
 
-	- Open <root_project>/src/views/Login.tsx file
 	
-	- Delete all code and writes:
-	
-		import React, { useState } from 'react';
-		import { View, Text, TextInput, Button } from 'react-native';
-
-		import style_01 from '../styles/style_01';
-		import NativeLocalStorage from '../../localStorage/NativeLocalStorage';
-
-		interface LoginProps {
-			onLogin: (username: string, password: string) => void;
-		}
-
-		const Login = ({ onLogin }: LoginProps) => {
-			const [localusername, setUsername] = useState('');
-			const [localpassword, setPassword] = useState('');
-
-			const handleLogin = () => {
-				if ((localusername === 'admin') && (localpassword === 'parda99*')) {
-					NativeLocalStorage?.setItem(localusername ?? '', 'username');
-					NativeLocalStorage?.setItem(localpassword ?? '', 'password');
-					onLogin(localusername, localpassword);
-				} else {
-					console.log('Invalid username or password');
-				}
-			};
-
-			return (
-				<View style={style_01.container}>
-					<Text style={style_01.title}>Login Screen</Text>
-					<View style={style_01.inputContainer}>
-						<TextInput
-							style={style_01.inputFiled}
-							placeholder="Username"
-							value={localusername}
-							onChangeText={(text) => setUsername(text)}
-						/>
-					</View>
-					<View style={style_01.inputContainer}>
-						<TextInput
-							style={style_01.inputFiled}
-							placeholder="Password"
-							secureTextEntry={true}
-							value={localpassword}
-							onChangeText={(text) => setPassword(text)}
-						/>
-					</View>
-					<View style={style_01.buttonContainer}>
-						<Button title="Login" onPress={handleLogin} />
-					</View>
-				</View>
-			);
-		};
-
-		export default Login;
 
 
 	- Save changes
@@ -342,43 +287,7 @@ Step 10 - Update the graphic interface
 	
 	- Delete all code and writes:
 	
-		// Call react libraries
-		import React, { useState } from 'react';
-		import { View } from 'react-native';
-
-		// Call the Login and Welcome components (custom components)
-		import Login from './src/views/Login';
-		import Welcome from './src/views/Welcome';
-
-		import NativeLocalStorage from './localStorage/NativeLocalStorage';
-
-		const App = () => {
-		  const [localusername, setUsername] = useState('');
-		  const [localpassword, setPassword] = useState('');
-
-		  React.useEffect(() => {
-			const user = NativeLocalStorage?.getItem('username');
-			const pass = NativeLocalStorage?.getItem('password');
-			setUsername(user ?? '');
-			setPassword(pass ?? '');
-		  }, []);
-
-		  if((localusername.length > 0) && (localpassword.length > 0)){
-			return <Welcome />;
-		  }else {
-			return (
-				<View>
-				  <Login onLogin={(username, password) => {
-					console.log(username + ' - ' + password);
-					setUsername(username);
-					setPassword(password);
-				  } } />
-				</View>
-			);
-		  }
-		};
-
-		export default App;
+		
 	
 	- Save changes
 	

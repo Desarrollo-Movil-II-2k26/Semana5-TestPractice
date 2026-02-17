@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -7,101 +7,61 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-interface Place {
-  id: string;
-  name: string;
-  description: string;
-  address: string;
-  country: string;
-  category: string;
-}
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { getPlaces } from '../services/tourPediaApi';
 
 interface Props {
   navegar: any;
 }
 
-const mockData: Place[] = [
-  {
-    id: '1',
-    name: 'Playa Manuel Antonio',
-    description: 'Hermosa playa con arena blanca y abundante naturaleza.',
-    address: 'Parque Nacional Manuel Antonio, Puntarenas',
-    country: 'Costa Rica',
-    category: 'Naturaleza',
-  },
-  {
-    id: '2',
-    name: 'Torre Eiffel',
-    description: 'Icónico monumento de hierro en París.',
-    address: 'Champ de Mars, París',
-    country: 'Francia',
-    category: 'Cultural',
-  },
-  {
-    id: '3',
-    name: 'Times Square',
-    description: 'Centro vibrante lleno de luces.',
-    address: 'Manhattan, Nueva York',
-    country: 'USA',
-    category: 'Urbano',
-  },
-  {
-    id: '4',
-    name: 'Coliseo Romano',
-    description: 'Anfiteatro histórico del Imperio Romano.',
-    address: 'Roma, Italia',
-    country: 'Italia',
-    category: 'Histórico',
-  },
-  {
-    id: '5',
-    name: 'Monte Fuji',
-    description: 'Volcán icónico de Japón.',
-    address: 'Honshu, Japón',
-    country: 'Japón',
-    category: 'Naturaleza',
-  },
-];
-
 const countries = [
-  'Costa Rica',
-  'Francia',
-  'USA',
-  'Italia',
-  'Japón',
-  'España',
-  'México',
-  'Brasil',
+  'Amsterdam',
+  'Barcelona',
+  'Berlin',
+  'Dubay',
+  'London',
+  'Paris',
+  'Rome',
+  'Tuscany',
 ];
 
-const categories = ['Naturaleza', 'Cultural', 'Urbano', 'Histórico'];
+const categories = ['accommodation', 'attraction', 'poi', 'restaurant'];
 
 const PlayListComponent: React.FC<Props> = ({ navegar }) => {
+
   const [search, setSearch] = useState('');
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [places, setPlaces] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState<string>('Amsterdam'); // default
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const filteredData = mockData.filter(place => {
-    const matchesSearch = place.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
+  const fetchPlaces = useCallback(async () => {
+    try {
+      setLoading(true);
 
-    const matchesCountry = selectedCountry
-      ? place.country === selectedCountry
-      : true;
+      const data = await getPlaces(
+        selectedCountry || undefined,
+        selectedCategory || undefined,
+        search || undefined
+      );
 
-    const matchesCategory = selectedCategory
-      ? place.category === selectedCategory
-      : true;
+      setPlaces(data);
+    } catch (error) {
+      console.log('Error fetching places:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [selectedCountry, selectedCategory, search]);
 
-    return matchesSearch && matchesCountry && matchesCategory;
-  });
+  useEffect(() => {
+    fetchPlaces();
+  }, [fetchPlaces]); 
 
   const onPressDetail = (id: string) => {
-    navegar.navigate('Details', { id });
+    navegar.navigate('DetailsView', { id });
   };
 
   return (
@@ -113,6 +73,7 @@ const PlayListComponent: React.FC<Props> = ({ navegar }) => {
           placeholder="Buscar lugar..."
           value={search}
           onChangeText={setSearch}
+          onSubmitEditing={fetchPlaces}
           style={styles.searchBar}
         />
 
@@ -120,7 +81,7 @@ const PlayListComponent: React.FC<Props> = ({ navegar }) => {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          style={styles.filterContainer}
+          contentContainerStyle={styles.filterContainer}
         >
           {countries.map(country => (
             <TouchableOpacity
@@ -131,7 +92,7 @@ const PlayListComponent: React.FC<Props> = ({ navegar }) => {
               ]}
               onPress={() =>
                 setSelectedCountry(
-                  selectedCountry === country ? null : country
+                  selectedCountry === country ? '' : country
                 )
               }
             >
@@ -151,7 +112,7 @@ const PlayListComponent: React.FC<Props> = ({ navegar }) => {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          style={styles.filterContainer}
+          contentContainerStyle={styles.filterContainer}
         >
           {categories.map(category => (
             <TouchableOpacity
@@ -178,23 +139,31 @@ const PlayListComponent: React.FC<Props> = ({ navegar }) => {
           ))}
         </ScrollView>
 
+        {/* Loader */}
+        {loading && <ActivityIndicator size="large" color="#1565C0" />}
+
         {/* Lista */}
         <FlatList
-          data={filteredData}
-          keyExtractor={(item) => item.id}
+          data={places}
+          keyExtractor={(item) => item.id.toString()}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.card}
               onPress={() => onPressDetail(item.id)}
             >
-              <Text style={styles.cardTitle}>{item.name}</Text>
-              <Text style={styles.cardDescription}>
-                {item.description}
+              <Text style={styles.cardTitle}>
+                {item.name || 'Sin nombre'}
               </Text>
+
               <Text style={styles.cardAddress}>
-                {item.address}
+                {item.address || 'Sin dirección disponible'}
               </Text>
+
+              <Text style={styles.cardDescription}>
+                {item.category}
+              </Text>
+
             </TouchableOpacity>
           )}
         />
@@ -231,6 +200,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 8,
+    marginBottom: 15,
   },
 
   filterButton: {

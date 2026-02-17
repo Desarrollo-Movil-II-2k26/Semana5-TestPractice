@@ -1,19 +1,19 @@
 import React from 'react';
-import {View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import PlayListComponent from '../components/PlayListComponent';
+import DetailsComponent from '../components/DetailsComponent';
 
-const PlayListView = ({ navigation }: any) => {
+const DetailsView = ({ route }: any) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <PlayListComponent navegar={navigation} />
+        <DetailsComponent route={route} />
       </View>
     </SafeAreaView>
   );
 };
 
-export default PlayListView;
+export default DetailsView;
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -21,10 +21,5 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    margin: 16,
   },
 });
