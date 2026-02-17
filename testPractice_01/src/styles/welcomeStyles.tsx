@@ -1,65 +1,86 @@
 import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
+const WelcomeStyles = StyleSheet.create({
+
   container: {
     flex: 1,
-    backgroundColor: '#f4f6f8',
+    backgroundColor: '#eef2f7',
     alignItems: 'center',
-  },
-
-  navbar: {
-    width: '100%',
-    height: 60,
-    backgroundColor: '#0D47A1',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
+    justifyContent: 'center',
+    padding: 20,
   },
 
   banner: {
-    width: '90%',
-    height: 180,
-    resizeMode: 'contain',
-    marginTop: 20,
+    width: 150,
+    height: 150,
+    resizeMode: 'cover',
+    borderRadius: 75,
+    marginBottom: 20,
+    borderWidth: 3,
+    borderColor: '#1565C0',
   },
 
   teamName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginVertical: 15,
+    fontSize: 26,
+    fontWeight: '700',
     color: '#0D47A1',
+    marginBottom: 15,
+    textAlign: 'center',
   },
 
   membersContainer: {
-    alignItems: 'center',
+    width: '100%',
+    backgroundColor: '#ffffff',
+    padding: 20,
+    borderRadius: 16,
     marginBottom: 20,
+
+    // Sombra iOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+
+    // Sombra Android
+    elevation: 6,
   },
 
   memberName: {
     fontSize: 16,
-    fontWeight: '600',
-    marginVertical: 2,
+    fontWeight: '500',
+    marginVertical: 4,
+    color: '#333',
+    textAlign: 'center',
   },
 
   infoContainer: {
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    marginTop: 10,
+    width: '100%',
+    backgroundColor: '#ffffff',
+    padding: 20,
+    borderRadius: 16,
+
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 6,
   },
 
   infoText: {
-    fontSize: 16,
-    marginVertical: 2,
-    color: '#333',
+    fontSize: 15,
+    marginVertical: 4,
+    color: '#555',
+    textAlign: 'center',
   },
 
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 10,
+    marginTop: 12,
     color: '#1565C0',
+    textAlign: 'center',
   },
+
 });
 
-export default styles;
+export default WelcomeStyles;

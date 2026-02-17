@@ -1,23 +1,43 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// Importa tus pantallas
-import Welcome from './src/views/welcome';
+import Welcome from './src/views/WelcomeView';
+import PlayList from './src/views/PlayListView.tsx';
+import { tabScreenOptions } from './src/styles/tabNavigationStyles';
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const HomeIcon = ({ color, size }: { color: string; size: number }) => (
+  <Ionicons name="home-outline" size={size} color={color} />
+);
+
+const ListIcon = ({ color, size }: { color: string; size: number }) => (
+  <Ionicons name="list-outline" size={size} color={color} />
+);
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {/* Pantalla de bienvenida */}
-        <Stack.Screen 
-          name="Welcome" 
-          component={Welcome} 
-          options={{ title: 'Bienvenida' }}
+      <Tab.Navigator screenOptions={tabScreenOptions}>
+        <Tab.Screen
+          name="Home"
+          component={Welcome}
+          options={{
+            tabBarIcon: HomeIcon,
+          }}
         />
-      </Stack.Navigator>
+        <Tab.Screen
+          name="Lista de Lugares"
+          component={PlayList}
+          options={{
+            tabBarIcon: ListIcon,
+          }}
+        />
+        {/* Aquí se pueden agregar más pantallas */}
+
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

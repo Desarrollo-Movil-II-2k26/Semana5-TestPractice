@@ -60,7 +60,7 @@ Step 04 - Creates the new application:
 	- Testing application (this process take awhile):
 
 		cd ..
-		npx react-native run-android (Comando para ejecutar el aplicativo)
+		npx react-native run-android
 		
 	- YUPI time (01)
 
@@ -75,6 +75,7 @@ Step 05 - Create the source structure:
 		<root_project>
 			- localStorage
 			- src
+				- assets
 				- components
 					- config				
 				- styles
@@ -84,14 +85,15 @@ Step 05 - Create the source structure:
 	
 Step 06 - Install required libraries:
 
-	- npm install @react-navigation/native
-	- npm install @react-navigation/native-stack
-	- npm install react-native-screens react-native-safe-area-context
-	- npm install @reduxjs/toolkit react-redux
-	- npm install @react-native-async-storage/async-storage
 	- npm install axios
-	- npm install react-native-vector-icons (ESTE NO)
-	- npm install --save-dev @types/react-native-vector-icons 
+	- npm install @reduxjs/toolkit react-redux
+	- npm install @react-navigation/native
+	- npm install react-native-vector-icons
+		- URL PARA VER LOS ICNONOS Y SU NOMBRE - https://ionic.io/ionicons
+	- npm install @react-navigation/bottom-tabs 
+	- npm install @react-navigation/native-stack
+	- npm install @react-native-async-storage/async-storage
+	- npm install react-native-screens react-native-safe-area-context
 
 ---------------------------
 
@@ -101,6 +103,7 @@ Step 07 - Create the StyleSheet:
 	
 		- Add new typescript file style_01.tsx and write the code you need
 		- Add new typescript file welcomeStyles.tsx and write the code you need	
+		- Add new typescript file tabNavigationStyles.tsx and write the code you need	
 
 		- Save changes
 
@@ -112,12 +115,15 @@ Step 08 - Create the components of the views:
 		- Add new typescript file Welcome.tsx write the code you need:
 		- Add new typescript file PlayList.tsx write the code you need:
 		- Add new typescript file Details.tsx write the code you need:
-		
-	- Open the <root_project>/App.tsx and:
-
-		- Write the code that you need:
 
 Step 08 - Create the components of the components:
+
+	- Right click on <root_project>/src/views
+	
+		- Add new typescript file Welcome.tsx write the code you need:
+		- Add new typescript file PlayList.tsx write the code you need:
+		- Add new typescript file Details.tsx write the code you need:
+
 		
 Setp 08 - Add localStorage module (header):	
 	
