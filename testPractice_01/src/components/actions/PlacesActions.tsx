@@ -10,7 +10,7 @@ import {
 } from './PlacesActionsTypes';
 
 import { getPlaces } from '../../services/tourPediaApi';
-
+//Hola
 // 1) Acción simple: guardar lo que el usuario tocó
 export const selectPlace = (place: any) => ({
   type: SELECT_PLACE,
