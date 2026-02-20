@@ -7,6 +7,7 @@ import {
   SET_SELECTED_PLACE, SET_SEARCH_QUERY,
 } from './PlacesActionsTypes';
 
+//API base URL para obtener lugares turísticos
 const BASE_URL = 'http://wafi.iit.cnr.it/openervm/api';
 
 export const fetchPlaces = (location = 'Barcelona', category = 'attraction', keyword = '') => {
