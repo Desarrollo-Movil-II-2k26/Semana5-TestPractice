@@ -1,14 +1,10 @@
-// src/components/Store.ts
-/*import { combineReducers, legacy_createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
+import placesReducer from './reducers/PlacesReducer';
 
-import PlacesReducer from './reducers/PlacesReducer';
-
-const rootReducer = combineReducers({
-  Places: PlacesReducer, // state.Places
+const store = configureStore({
+  reducer: { places: placesReducer },
 });
 
-const ConfigureStore = () =>
-  legacy_createStore(rootReducer, applyMiddleware(thunk));
-
-export default ConfigureStore;*/
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export default store;
