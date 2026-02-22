@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Welcome from './src/views/WelcomeView';
 import PlayList from './src/views/PlayListView';
 import DetailsView from './src/views/DetailsView';
+import FavoritesView from './src/views/FavoritesView';
 import { tabScreenOptions } from './src/styles/tabNavigationStyles';
 
 const Tab = createBottomTabNavigator();
@@ -19,6 +20,10 @@ const HomeIcon = ({ color, size }: { color: string; size: number }) => (
 
 const ListIcon = ({ color, size }: { color: string; size: number }) => (
   <Ionicons name="list-outline" size={size} color={color} />
+);
+
+const HeartIcon = ({ color, size }: { color: string; size: number }) => (
+  <Ionicons name="heart-outline" size={size} color={color} />
 );
 
 // Stack que contiene la lista y la pantalla de detalles
@@ -53,6 +58,11 @@ function App() {
           name="Lista de Lugares"
           component={PlayListStack} // Aquí ponemos el stack
           options={{ tabBarIcon: ListIcon }}
+        />
+        <Tab.Screen
+          name="Favoritos"
+          component={FavoritesView}
+          options={{ tabBarIcon: HeartIcon }}
         />
       </Tab.Navigator>
     </NavigationContainer>

@@ -312,3 +312,10 @@ Step 10 - Update the graphic interface
 	- YUPI time again (05)
 
 
+----
+Nota: luego de clonar el repositorio desde github se deben ejecutar los siguientes comandos:
+cd testPractice_01
+npm install
+
+cd android
+./gradlew generateCodegenArtifactsFromSchema
