@@ -10,6 +10,7 @@ import store from './src/components/Store';
 import Welcome from './src/views/WelcomeView';
 import PlayList from './src/views/PlayListView';
 import DetailsView from './src/views/DetailsView';
+import FavoritesView from './src/views/FavoritesView';
 
 // Estilos de la barra de navegación inferior
 import { tabScreenOptions } from './src/styles/tabNavigationStyles';
@@ -28,8 +29,17 @@ const ListIcon = ({ color, size }: { color: string; size: number }) => (
   <Ionicons name="list-outline" size={size} color={color} />
 );
 
+// Ícono para la pestaña de lista de lugares favoritos
+const HeartIcon = ({ color, size }: { color: string; size: number }) => (
+  <Ionicons name="heart-outline" size={size} color={color} />
+);
+
+
 // Stack Navigator que contiene la lista de lugares y la pantalla de detalles
 // Permite navegar de PlayList → DetailsView al seleccionar un lugar
+
+
+// Stack que contiene la lista y la pantalla de detalles
 function PlayListStack() {
   return (
     <Stack.Navigator>
@@ -69,6 +79,11 @@ function App() {
             name="Lista de Lugares"
             component={PlayListStack}
             options={{ tabBarIcon: ListIcon }}
+          />
+          <Tab.Screen
+            name="Favoritos"
+            component={FavoritesView}
+            options={{ tabBarIcon: HeartIcon }}
           />
         </Tab.Navigator>
       </NavigationContainer>

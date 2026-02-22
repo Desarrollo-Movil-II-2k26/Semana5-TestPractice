@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   View,
   Text,
   ScrollView,
   Linking,
   StyleSheet,
-   TouchableOpacity,
+  TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GET_PLACE_DETAILS } from '../components/config/config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
 interface Props {
   route: any;
@@ -23,8 +26,25 @@ const DetailsComponent: React.FC<Props> = ({ route }) => {
     fetch(`${GET_PLACE_DETAILS}?id=${id}`)
       .then(res => res.json())
       .then(data => setPlace(data))
-      .catch(() => {});
+      .catch(() => { });
   }, [id]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const checkIfFavorite = async () => {
+        if (!place) return;
+
+        const data = await AsyncStorage.getItem('favorites');
+        const favorites = data ? JSON.parse(data) : [];
+
+        const exists = favorites.find((item: any) => item.id === place.id);
+
+        setIsFavorite(!!exists);
+      };
+
+      checkIfFavorite();
+    }, [place])
+  );
 
   if (!place) {
     return (
@@ -35,6 +55,28 @@ const DetailsComponent: React.FC<Props> = ({ route }) => {
   }
 
   const fullAddress = `${place.location}, ${place.address}`;
+
+  const handleAddFavorite = async () => {
+    const data = await AsyncStorage.getItem('favorites');
+    let favorites = data ? JSON.parse(data) : [];
+
+    if (favorites.find((item: any) => item.id === place.id)) {
+      Alert.alert('Este lugar ya está en favoritos');
+      return;
+    }
+
+    if (favorites.length >= 5) {
+      Alert.alert('Solo puedes agregar máximo 5 favoritos');
+      return;
+    }
+
+    favorites.push(place);
+
+    await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
+    setIsFavorite(true);
+
+    Alert.alert('Éxito', 'Se agregó correctamente a favoritos');
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -71,20 +113,20 @@ const DetailsComponent: React.FC<Props> = ({ route }) => {
           </Text>
 
         </View>
-            
+
         <TouchableOpacity
-            style={[
-              styles.favoriteButton,
-              isFavorite && styles.favoriteButtonActive,
-            ]}
-            onPress={() => setIsFavorite(!isFavorite)}
-          >
-            <Text style={styles.favoriteText}>
-              {isFavorite ? '❤️ En favoritos' : '🤍 Agregar a favoritos'}
-            </Text>
+          style={[
+            styles.favoriteButton,
+            isFavorite && styles.favoriteButtonActive,
+          ]}
+          onPress={handleAddFavorite}
+        >
+          <Text style={styles.favoriteText}>
+            {isFavorite ? '❤️ En favoritos' : '🤍 Agregar a favoritos'}
+          </Text>
         </TouchableOpacity>
 
-  
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -104,8 +146,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 10,
   },
-
-
 
   loader: {
     flex: 1,
@@ -154,22 +194,21 @@ const styles = StyleSheet.create({
   },
 
   favoriteButton: {
-  backgroundColor: '#E9ECEF',
-  paddingVertical: 14,
-  borderRadius: 30,
-  alignItems: 'center',
-  marginTop: 20,
-  marginBottom: 30,
-},
+    backgroundColor: '#043a6f',
+    paddingVertical: 14,
+    borderRadius: 30,
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 30,
+  },
 
-favoriteButtonActive: {
-  backgroundColor: '#1565C0',
-},
+  favoriteButtonActive: {
+    backgroundColor: '#1565C0',
+  },
 
-favoriteText: {
-  fontSize: 16,
-  fontWeight: 'bold',
-  color: '#FFFFFF',
-},
-
+  favoriteText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
 });
